@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Omotec Student Registration | Clear Workflow Diagram</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #f0f4f9;
+      font-family: 'Inter', sans-serif;
+      padding: 2rem 1.5rem;
+      color: #1a2f3f;
+    }
+
+    .workflow-container {
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* header */
+    .wf-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .wf-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      background: linear-gradient(120deg, #1B4F72, #2A9D8F);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .wf-header p {
+      color: #2c6e6b;
+      font-weight: 500;
+      background: #e9f3f1;
+      display: inline-block;
+      padding: 0.25rem 1.2rem;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+
+    /* ========= MAIN WORKFLOW VERTICAL / STEP WITH ARROWS ========= */
+    .workflow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* each major row: actor + arrow + action block */
+    .wf-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin: 0.5rem 0;
+      position: relative;
+    }
+
+    .actor-badge {
+      background: white;
+      border-radius: 60px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(0,0,0,0.08);
+      min-width: 140px;
+      justify-content: center;
+    }
+
+    .bm-badge { background: #e1f0fa; color: #155f8b; border-left: 5px solid #1e6091; }
+    .sys-badge { background: #e1f3e8; color: #1f6e43; border-left: 5px solid #2d6a4f; }
+    .parent-badge { background: #feefe6; color: #b45f2b; border-left: 5px solid #e76f51; }
+    .student-badge { background: #ede7f6; color: #5e3a9c; border-left: 5px solid #8b5cf6; }
+
+    .process-card {
+      background: white;
+      border-radius: 1.2rem;
+      padding: 0.8rem 1.2rem;
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.05);
+      flex: 1;
+      min-width: 240px;
+      max-width: 380px;
+      border-top: 3px solid;
+      transition: all 0.2s;
+    }
+
+    .process-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .process-desc {
+      font-size: 0.8rem;
+      color: #2c3e50;
+      line-height: 1.4;
+    }
+
+    .arrow-line {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      font-weight: bold;
+      color: #2a9d8f;
+      min-width: 48px;
+    }
+
+    .arrow-text {
+      font-size: 0.7rem;
+      font-weight: 600;
+      background: #eef2f5;
+      padding: 0.2rem 0.6rem;
+      border-radius: 20px;
+      white-space: nowrap;
+      color: #1f6d5c;
+    }
+
+    .branch-note {
+      background: #fff7e5;
+      border-radius: 16px;
+      padding: 0.5rem 0.9rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-top: 8px;
+      display: inline-block;
+      width: auto;
+      border-left: 3px solid #f4a261;
+    }
+
+    .expiry-badge {
+      background: #ffede3;
+      color: #c45b1a;
+      border-radius: 30px;
+      padding: 0.2rem 0.7rem;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-left: 6px;
+    }
+
+    @media (max-width: 780px) {
+      .wf-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .arrow-line {
+        flex-direction: row;
+        justify-content: flex-start;
+        gap: 8px;
+        margin-left: 1rem;
+      }
+      .process-card {
+        max-width: 100%;
+      }
+      .actor-badge {
+        width: fit-content;
+      }
+    }
+
+    .footnote-clean {
+      text-align: center;
+      margin-top: 2rem;
+      font-size: 0.7rem;
+      color: #5d7e8c;
+      border-top: 1px dashed #cbdbe2;
+      padding-top: 1rem;
+    }
+
+    /* decision branch styling inside card */
+    .decision-group {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .decision-item {
+      background: #f8f9fc;
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    .valid {
+      border-left: 3px solid #2a9d8f;
+      background: #e0f2ef;
+    }
+    .expired {
+      border-left: 3px solid #e76f51;
+      background: #fee9e3;
+    }
+  </style>
+</head>
+<body>
+<div class="workflow-container">
+  <div class="wf-header">
+    <h1><i class="fas fa-graduation-cap"></i> Omotec Student Registration · Sequential Workflow with Annotations</h1>
+    <p>🔹 BM → System → Parent → Student 🔹 48h link expiry 🔹 OTP + Document + Consent</p>
+  </div>
+
+  <!-- MAIN WORKFLOW WITH EXPLICIT ARROWS AND PROCESS MENTIONS AROUND LINES -->
+  <div class="workflow-steps">
+    
+    <!-- 1. BM actions + arrow -->
+    <div class="wf-row">
+      <div class="actor-badge bm-badge"><i class="fas fa-user-tie"></i> Branch Manager (BM)</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-down"></i>
+        <span class="arrow-text">explains course + verbal consent</span>
+      </div>
+      <div class="process-card" style="border-top-color: #1e6091;">
+        <div class="process-title"><i class="fas fa-chalkboard-user"></i> Step 1: Course intro & verbal go-ahead</div>
+        <div class="process-desc">BM verbally explains Omotec course, benefits, schedule. Takes verbal consent from parent.</div>
+      </div>
+    </div>
+
+    <!-- 2. BM enters parent details -->
+    <div class="wf-row">
+      <div class="actor-badge bm-badge"><i class="fas fa-edit"></i> BM input</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">enter parent name + email</span>
+      </div>
+      <div class="process-card" style="border-top-color: #2c7da0;">
+        <div class="process-title"><i class="fas fa-envelope"></i> BM fills parent details</div>
+        <div class="process-desc">Parent’s full name & email address → system stores request (pending).</div>
+      </div>
+    </div>
+
+    <!-- 3. System generates link + sends email (with arrow explaining) -->
+    <div class="wf-row">
+      <div class="actor-badge sys-badge"><i class="fas fa-microchip"></i> System</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">generate unique 48h link → send email</span>
+      </div>
+      <div class="process-card" style="border-top-color: #2d6a4f;">
+        <div class="process-title"><i class="fas fa-link"></i> Unique registration link + Email trigger</div>
+        <div class="process-desc">Creates unique URL (expires in <strong class="expiry-badge">48 hours</strong>). Sends email to parent containing link. <br> <i class="fas fa-check-circle" style="color:#2a9d8f;"></i> Email verification implicit on click.</div>
+      </div>
+    </div>
+
+    <!-- 4. Parent opens link (validation branch) - DECISION POINT -->
+    <div class="wf-row">
+      <div class="actor-badge parent-badge"><i class="fas fa-female"></i> Parent</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-down"></i>
+        <span class="arrow-text">opens registration email</span>
+      </div>
+      <div class="process-card" style="border-top-color: #e76f51;">
+        <div class="process-title"><i class="fas fa-envelope-open-text"></i> Clicks secure link → Email verified</div>
+        <div class="process-desc">
+          System checks link validity:
+          <div class="decision-group">
+            <div class="decision-item valid"><i class="fas fa-check-circle"></i> ✅ Valid link → show registration form</div>
+            <div class="decision-item expired"><i class="fas fa-hourglass-end"></i> ❌ Expired link → "Link expired, contact BM"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Parent fills student details -->
+    <div class="wf-row">
+      <div class="actor-badge parent-badge"><i class="fas fa-user-graduate"></i> Parent</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">fills student & contact info</span>
+      </div>
+      <div class="process-card" style="border-top-color: #f4a261;">
+        <div class="process-title"><i class="fas fa-address-card"></i> Student details form</div>
+        <div class="process-desc">Student name, email, phone, class, age. Also parent phone + student phone (both recorded).</div>
+      </div>
+    </div>
+
+    <!-- 6. System OTP & Parent verification (two actors interaction) -->
+    <div class="wf-row">
+      <div class="actor-badge sys-badge"><i class="fas fa-key"></i> System</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">sends OTP to student phone</span>
+      </div>
+      <div class="process-card" style="border-top-color: #52b788;">
+        <div class="process-title"><i class="fas fa-mobile-alt"></i> OTP Generation</div>
+        <div class="process-desc">System sends OTP to student's mobile number.</div>
+      </div>
+    </div>
+
+    <div class="wf-row">
+      <div class="actor-badge parent-badge"><i class="fas fa-check-circle"></i> Parent</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">enters OTP → verification</span>
+      </div>
+      <div class="process-card" style="border-top-color: #e9c46a;">
+        <div class="process-title"><i class="fas fa-check-double"></i> OTP Verification</div>
+        <div class="process-desc">Parent submits OTP, system validates → phone marked verified.</div>
+      </div>
+    </div>
+
+    <!-- 7. Upload documents (Aadhar / School ID) -->
+    <div class="wf-row">
+      <div class="actor-badge parent-badge"><i class="fas fa-cloud-upload-alt"></i> Parent</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-down"></i>
+        <span class="arrow-text">upload identity proof</span>
+      </div>
+      <div class="process-card" style="border-top-color: #e9b35f;">
+        <div class="process-title"><i class="fas fa-id-card"></i> Document upload</div>
+        <div class="process-desc">Upload Student's Aadhar card <strong>OR</strong> School ID card (PDF/Image).</div>
+      </div>
+    </div>
+
+    <!-- 8. Agree T&C + Consent -->
+    <div class="wf-row">
+      <div class="actor-badge parent-badge"><i class="fas fa-file-signature"></i> Parent</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">review & agree to Omotec T&C</span>
+      </div>
+      <div class="process-card" style="border-top-color: #e38b45;">
+        <div class="process-title"><i class="fas fa-gavel"></i> Terms & Consent</div>
+        <div class="process-desc">Parent checks consent box: “I agree to Omotec Terms & Conditions and give consent for student registration.”</div>
+      </div>
+    </div>
+
+    <!-- 9. Final validation & Invalidation of link (including error correction) -->
+    <div class="wf-row">
+      <div class="actor-badge sys-badge"><i class="fas fa-save"></i> System</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">validate → save → invalidate link</span>
+      </div>
+      <div class="process-card" style="border-top-color: #2b9348;">
+        <div class="process-title"><i class="fas fa-lock"></i> Validation & Persistence</div>
+        <div class="process-desc">
+          System validates all details, stores student & parent data, uploads documents securely. <strong>Registration link invalidated</strong> → no further changes allowed.
+          <div class="decision-group" style="margin-top: 8px;">
+            <div class="decision-item" style="background:#feefe6;"><i class="fas fa-exclamation-triangle"></i> If validation error → show error, request correction (parent edits & resubmits)</div>
+            <div class="decision-item" style="background:#dff0e8;"><i class="fas fa-check-circle"></i> On success → registration saved, link expired</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 10. Confirmations & BM notify -->
+    <div class="wf-row">
+      <div class="actor-badge sys-badge"><i class="fas fa-bell"></i> System</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-right"></i>
+        <span class="arrow-text">send confirmations</span>
+      </div>
+      <div class="process-card" style="border-top-color: #0077b6;">
+        <div class="process-title"><i class="fas fa-envelope-open-text"></i> Final notifications</div>
+        <div class="process-desc">Confirmation email to parent + SMS to student. BM receives registration completion alert.</div>
+      </div>
+    </div>
+
+    <!-- final success node -->
+    <div class="wf-row">
+      <div class="actor-badge student-badge"><i class="fas fa-child"></i> Student</div>
+      <div class="arrow-line">
+        <i class="fas fa-arrow-down"></i>
+        <span class="arrow-text">registration active</span>
+      </div>
+      <div class="process-card" style="border-top-color: #8b5cf6;">
+        <div class="process-title"><i class="fas fa-check-circle"></i> Student registered on Omotec platform</div>
+        <div class="process-desc">Student account created, welcome SMS sent, access granted. Workflow complete.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION POINTS & ANNOTATIONS SUMMARY (inline with process) -->
+  <div style="background: #ffffffcc; border-radius: 1.5rem; padding: 1rem 1.2rem; margin-top: 0.5rem; border: 1px solid #cde0db;">
+    <div style="display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; justify-content: space-between;">
+      <div><i class="fas fa-hourglass-half" style="color:#e67e22;"></i> <strong>⏱️ 48-Hour Expiry Rule</strong><br><span style="font-size:0.7rem;">Unique registration link expires after 48h. Parent must complete before deadline.</span></div>
+      <div><i class="fas fa-code-branch" style="color:#2a9d8f;"></i> <strong>🔀 Decision Points</strong><br><span style="font-size:0.7rem;">Link validity check (valid/expired) + validation success/error correction</span></div>
+      <div><i class="fas fa-check-double" style="color:#2ecc71;"></i> <strong>✅ Post-registration</strong><br><span style="font-size:0.7rem;">Link invalidated, no edits. BM notified, student receives SMS.</span></div>
+    </div>
+  </div>
+
+  <div class="footnote-clean">
+    <i class="fas fa-arrow-circle-right"></i>  
+    <strong></strong>
+  </div>
+</div>
+</body>
+</html>
